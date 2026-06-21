@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Logları</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .log-entry {
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-sm);
+            border-left: 5px solid;
+            background-color: var(--surface-dark);
+            transition: var(--transition);
+        }
+        .log-entry:hover {
+            background-color: #3a3a3a;
+        }
+        .log-entry.CREATE { border-color: var(--success); }
+        .log-entry.UPDATE { border-color: var(--warning); }
+        .log-entry.DELETE, .log-entry.DELETE_MULTIPLE { border-color: var(--danger); }
+        .log-entry.ERROR { border-color: #ff0000; }
+        .log-entry.SYNC { border-color: var(--info); }
+        .log-timestamp {
+            font-size: 0.85rem;
+            color: var(--text-muted-dark);
+        }
+        .log-action {
+            font-weight: 700;
+            margin-right: 8px;
+        }
+        .log-link {
+            float: right;
+            margin-left: 12px;
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <nav class="navbar">
+        <div class="container">
+            <span class="navbar-brand"><i class="fa-solid fa-cloud-arrow-up"></i> Firebase Logları</span>
+            <div class="navbar-actions">
+                <form action="{{ url_for('admin_clear_logs') }}" method="POST" onsubmit="return confirm('30 günden eski loglar silinecek. Onaylıyor musunuz?')" style="display:inline;">
+                    <button type="submit" class="btn btn-outline-light btn-sm"><i class="fa-solid fa-broom"></i> Eski Logları Temizle</button>
+                </form>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-light btn-sm"><i class="fa-solid fa-arrow-left"></i> Panele Dön</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h4>Son 500 İşlem Logu</h4>
+        {% if logs %}
+            {% for log in logs %}
+            <div class="log-entry {{ log.action }}">
+                <span class="log-action">
+                    {% if log.action == 'CREATE' %}➕
+                    {% elif log.action == 'UPDATE' %}✏️
+                    {% elif log.action == 'DELETE' %}🗑️
+                    {% elif log.action == 'DELETE_MULTIPLE' %}🗑️🗑️
+                    {% elif log.action == 'ERROR' %}❌
+                    {% elif log.action == 'SYNC' %}🔄
+                    {% else %}❓{% endif %}
+                    {{ log.action }}
+                </span>
+                <span class="log-details">{{ log.details }}</span>
+                {% if log.record_id and log.action in ['UPDATE', 'CREATE'] %}
+                <a href="{{ url_for('admin_edit', firestore_id=log.record_id) }}" class="btn btn-sm btn-warning log-link">
+                   <i class="fa-solid fa-pen-to-square"></i> Kayda Git
+                </a>
+                {% endif %}
+                <div class="log-timestamp">{{ log.timestamp }}</div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-info">Henüz hiç log kaydı yok.</div>
+        {% endif %}
+    </div>
+</body>
+</html>

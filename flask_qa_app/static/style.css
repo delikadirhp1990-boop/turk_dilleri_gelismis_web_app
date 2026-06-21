@@ -1,4 +1,3 @@
-/* ======================= DEĞİŞKENLER ======================= */
 :root {
     --primary: #0e639c;
     --primary-hover: #1177bb;
@@ -24,10 +23,8 @@
     --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
     --transition: all 0.3s ease;
     --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    --font-mono: 'Cascadia Code', 'Fira Code', monospace;
 }
 
-/* ======================= SIFIRLAMA ======================= */
 *,
 *::before,
 *::after {
@@ -63,7 +60,6 @@ a:hover {
     text-decoration: underline;
 }
 
-/* ======================= SCROLLBAR ======================= */
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -82,7 +78,6 @@ a:hover {
     background: #808080;
 }
 
-/* ======================= NAVBAR ======================= */
 .navbar {
     background: linear-gradient(135deg, var(--primary-dark), var(--primary));
     padding: 12px 0;
@@ -117,7 +112,6 @@ a:hover {
     gap: 8px;
 }
 
-/* ======================= CONTAINER ======================= */
 .container {
     width: 100%;
     max-width: 1140px;
@@ -126,7 +120,6 @@ a:hover {
     flex: 1;
 }
 
-/* ======================= CARD ======================= */
 .card {
     background-color: var(--surface-light);
     border: 1px solid var(--border-light);
@@ -158,15 +151,9 @@ body.dark-theme .card {
     color: var(--primary);
 }
 
-/* ======================= FORM ELEMANLARI ======================= */
 .form-label {
     font-weight: 600;
     margin-bottom: 8px;
-    color: var(--text-light);
-}
-
-body.dark-theme .form-label {
-    color: var(--text-dark);
 }
 
 .form-control {
@@ -181,15 +168,15 @@ body.dark-theme .form-label {
     outline: none;
 }
 
-.form-control:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(14, 99, 156, 0.2);
-}
-
 body.dark-theme .form-control {
     background-color: #3c3c3c;
     border-color: var(--border-dark);
     color: var(--text-dark);
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(14, 99, 156, 0.2);
 }
 
 body.dark-theme .form-control:focus {
@@ -207,7 +194,6 @@ textarea.form-control {
     resize: vertical;
 }
 
-/* ======================= BUTONLAR ======================= */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -281,12 +267,6 @@ textarea.form-control {
     font-size: 1.2rem;
 }
 
-.btn-block {
-    width: 100%;
-    display: flex;
-}
-
-/* ======================= ALERT ======================= */
 .alert {
     padding: 16px 20px;
     border-radius: var(--radius-sm);
@@ -329,7 +309,6 @@ body.dark-theme .alert-warning {
     color: #ffeeba;
 }
 
-/* ======================= TABLE ======================= */
 .table {
     width: 100%;
     border-collapse: separate;
@@ -369,11 +348,6 @@ body.dark-theme .table tbody tr:hover {
     background-color: rgba(255, 255, 255, 0.03);
 }
 
-.table-hover tbody tr:hover {
-    background-color: rgba(0, 0, 0, 0.03);
-}
-
-/* Hatalı satır */
 .faulty-row {
     background-color: rgba(220, 53, 69, 0.08) !important;
     border-left: 4px solid var(--danger);
@@ -383,7 +357,70 @@ body.dark-theme .faulty-row {
     background-color: rgba(220, 53, 69, 0.15) !important;
 }
 
-/* ======================= UTILITY ======================= */
+/* Sayfalama */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+}
+
+.page-link {
+    padding: 8px 16px;
+    background-color: var(--surface-light);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    color: var(--primary);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+body.dark-theme .page-link {
+    background-color: var(--surface-dark);
+    border-color: var(--border-dark);
+}
+
+.page-link:hover {
+    background-color: var(--primary);
+    color: white;
+    text-decoration: none;
+}
+
+.page-link.active {
+    background-color: var(--primary);
+    color: white;
+}
+
+/* Toast */
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.toast {
+    padding: 12px 20px;
+    border-radius: var(--radius-sm);
+    color: white;
+    font-weight: 500;
+    animation: fadeIn 0.5s ease;
+    box-shadow: var(--shadow-lg);
+}
+
+.toast-success { background-color: var(--success); }
+.toast-error { background-color: var(--danger); }
+.toast-warning { background-color: var(--warning); color: #212529; }
+
+/* Grafik kapları */
+canvas {
+    max-width: 100%;
+    height: auto !important;
+}
+
 .text-center { text-align: center; }
 .text-muted { color: var(--text-muted-light); }
 body.dark-theme .text-muted { color: var(--text-muted-dark); }
@@ -401,7 +438,6 @@ body.dark-theme .text-muted { color: var(--text-muted-dark); }
 .d-grid { display: grid; }
 .gap-2 { gap: 8px; }
 
-/* ======================= ANİMASYONLAR ======================= */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
@@ -412,11 +448,28 @@ body.dark-theme .text-muted { color: var(--text-muted-dark); }
     to { opacity: 1; transform: translateX(0); }
 }
 
-.card {
-    animation: fadeIn 0.5s ease;
+.theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: var(--shadow-lg);
+    z-index: 999;
+    transition: var(--transition);
 }
 
-/* ======================= RESPONSİVE ======================= */
+.theme-toggle:hover {
+    background: var(--primary-hover);
+    transform: scale(1.1);
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 0 12px;
@@ -447,23 +500,4 @@ body.dark-theme .text-muted { color: var(--text-muted-dark); }
         font-weight: bold;
         text-transform: uppercase;
     }
-}
-
-/* ======================= DARK MODE TOGGLE (opsiyonel) ======================= */
-.theme-toggle {
-    background: transparent;
-    border: 2px solid white;
-    color: white;
-    border-radius: 50px;
-    padding: 6px 14px;
-    cursor: pointer;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.theme-toggle:hover {
-    background: white;
-    color: var(--primary-dark);
 }

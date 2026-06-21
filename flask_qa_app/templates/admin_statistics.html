@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İstatistikler</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body class="dark-theme">
+    <nav class="navbar">
+        <div class="container">
+            <span class="navbar-brand"><i class="fa-solid fa-chart-pie"></i> İstatistikler</span>
+            <div class="navbar-actions">
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-light btn-sm"><i class="fa-solid fa-arrow-left"></i> Panele Dön</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        <h3>Toplam Kayıt: {{ stats.total }}</h3>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Kategori Dağılımı</h5>
+                        <canvas id="categoryChart" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Dil Dağılımı</h5>
+                        <canvas id="languageChart" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const categoryLabels = JSON.parse('{{ stats.category_labels | safe }}');
+        const categoryValues = JSON.parse('{{ stats.category_values | safe }}');
+        const languageLabels = JSON.parse('{{ stats.language_labels | safe }}');
+        const languageValues = JSON.parse('{{ stats.language_values | safe }}');
+
+        new Chart(document.getElementById('categoryChart'), {
+            type: 'pie',
+            data: {
+                labels: categoryLabels,
+                datasets: [{
+                    data: categoryValues,
+                    backgroundColor: ['#0e639c','#00bcd4','#ffc107','#dc3545','#28a745','#6f42c1','#fd7e14','#20c997']
+                }]
+            }
+        });
+
+        new Chart(document.getElementById('languageChart'), {
+            type: 'bar',
+            data: {
+                labels: languageLabels,
+                datasets: [{
+                    label: 'Kayıt Sayısı',
+                    data: languageValues,
+                    backgroundColor: '#0e639c'
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

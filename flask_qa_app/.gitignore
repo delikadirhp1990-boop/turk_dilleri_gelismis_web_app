@@ -31,3 +31,7 @@ data/turkce_verileri.json
 # İşletim sistemi
 .DS_Store
 Thumbs.db
+
+.env
+*.log
+desktop/app.log

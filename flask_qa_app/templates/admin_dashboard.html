@@ -3,91 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Paneli</title>
+    <title>Yönetim Paneli</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body class="dark-theme">
     <nav class="navbar">
         <div class="container">
-            <span class="navbar-brand">
-                <i class="fa-solid fa-screwdriver-wrench"></i> Admin Paneli
-            </span>
+            <span class="navbar-brand"><i class="fa-solid fa-screwdriver-wrench"></i> Admin Paneli</span>
             <div class="navbar-actions">
-                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-light btn-sm">
-                    <i class="fa-solid fa-arrows-rotate"></i> Yenile
-                </a>
-                <a href="{{ url_for('admin_logout') }}" class="btn btn-outline-light btn-sm">
-                    <i class="fa-solid fa-right-from-bracket"></i> Çıkış
-                </a>
+                <a href="{{ url_for('admin_stats') }}" class="btn btn-outline-light btn-sm"><i class="fa-solid fa-chart-pie"></i> İstatistikler</a>
+                <a href="{{ url_for('admin_logs') }}" class="btn btn-outline-light btn-sm"><i class="fa-solid fa-list-check"></i> Yerel Log</a>
+                <a href="{{ url_for('admin_firebase_logs') }}" class="btn btn-outline-light btn-sm"><i class="fa-solid fa-cloud-arrow-up"></i> FB Log</a>
+                <a href="{{ url_for('admin_guide') }}" class="btn btn-outline-light btn-sm"><i class="fa-solid fa-circle-question"></i> Kılavuz</a>
+                <a href="{{ url_for('admin_add') }}" class="btn btn-outline-light btn-sm"><i class="fa-solid fa-plus"></i> Yeni Kayıt</a>
+                <a href="{{ url_for('admin_change_password') }}" class="btn btn-outline-light btn-sm"><i class="fa-solid fa-key"></i> Şifre</a>
+                <a href="{{ url_for('admin_logout') }}" class="btn btn-outline-light btn-sm"><i class="fa-solid fa-right-from-bracket"></i> Çıkış</a>
             </div>
         </div>
     </nav>
 
     <div class="container mt-4">
-        <h3><i class="fa-solid fa-database"></i> Toplam Kayıt: {{ total }}</h3>
-        <h5 class="text-warning"><i class="fa-solid fa-triangle-exclamation"></i> Hatalı Kayıtlar: {{ faulty|length }}</h5>
+        <!-- Filtre ve arama -->
+        <form class="row g-3 mb-4">
+            <div class="col-md-4">
+                <input type="text" name="query" class="form-control" placeholder="Başlık veya tanımda ara..." value="{{ query }}">
+            </div>
+            <div class="col-md-3">
+                <select name="language" class="form-control">
+                    <option value="">Tüm Diller</option>
+                    {% for lang in languages %}
+                    <option value="{{ lang }}" {% if selected_language == lang %}selected{% endif %}>{{ lang }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="category" class="form-control">
+                    <option value="">Tüm Kategoriler</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat }}" {% if selected_category == cat %}selected{% endif %}>{{ cat }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2 d-grid">
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-filter"></i> Filtrele</button>
+            </div>
+        </form>
+
+        <!-- Üst bilgi ve toplu işlemler -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5><i class="fa-solid fa-database"></i> Toplam: {{ total }} kayıt</h5>
+            <div>
+                {% if faulty %}
+                <span class="text-warning me-3"><i class="fa-solid fa-triangle-exclamation"></i> Hatalı: {{ faulty|length }}</span>
+                {% endif %}
+                <a href="{{ url_for('export_json') }}" class="btn btn-outline-light btn-sm me-2"><i class="fa-solid fa-download"></i> Dışa Aktar</a>
+                <button class="btn btn-outline-light btn-sm me-2" onclick="document.getElementById('importFile').click()"><i class="fa-solid fa-upload"></i> İçe Aktar</button>
+                <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(this)">
+
+                <!-- Yeni toplu işlem butonları -->
+                <form action="{{ url_for('regenerate_all_embeddings') }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-outline-light btn-sm me-2" title="Tüm eksik embeddingleri oluştur"><i class="fa-solid fa-brain"></i> Toplu Embedding</button>
+                </form>
+                <form action="{{ url_for('sync_push') }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-outline-light btn-sm me-2"><i class="fa-solid fa-cloud-upload"></i> Push</button>
+                </form>
+                <form action="{{ url_for('sync_pull') }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-outline-light btn-sm"><i class="fa-solid fa-cloud-download"></i> Pull</button>
+                </form>
+            </div>
+        </div>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }}">
-                        {{ message }}
-                    </div>
+                    <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }}">{{ message }}</div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
 
-        <div class="table-responsive mt-4">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Başlık</th>
-                        <th>Kategori</th>
-                        <th>Dil</th>
-                        <th>Hatalar</th>
-                        <th>İşlemler</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for rec in records %}
-                    <tr class="{{ 'faulty-row' if rec.get('_errors') else '' }}">
-                        <td data-label="Başlık">{{ rec.get('title', 'Başlıksız') }}</td>
-                        <td data-label="Kategori">{{ rec.get('category', '') }}</td>
-                        <td data-label="Dil">{{ rec.get('language', '') }}</td>
-                        <td data-label="Hatalar">
-                            {% if rec.get('_errors') %}
-                                <ul class="list-unstyled text-danger small">
-                                {% for err in rec['_errors'] %}
-                                    <li><i class="fa-solid fa-circle-exclamation"></i> {{ err }}</li>
-                                {% endfor %}
-                                </ul>
-                            {% endif %}
-                        </td>
-                        <td data-label="İşlemler">
-                            <div class="d-flex gap-2">
-                                <a href="{{ url_for('admin_edit', firestore_id=rec.firestore_id) }}" class="btn btn-warning btn-sm">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-                                <form action="{{ url_for('admin_delete', firestore_id=rec.firestore_id) }}" method="POST" onsubmit="return confirm('Kayıt silinecek, emin misiniz?')">
-                                    <button type="submit" class="btn btn-danger btn-sm">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </form>
-                                {% if not rec.get('ai_metadata', {}).get('embedding') %}
-                                <form action="{{ url_for('regenerate_embedding', firestore_id=rec.firestore_id) }}" method="POST">
-                                    <button type="submit" class="btn btn-info btn-sm">
-                                        <i class="fa-solid fa-brain"></i>
-                                    </button>
-                                </form>
+        <!-- Toplu silme formu -->
+        <form id="deleteForm" action="{{ url_for('admin_delete_multiple') }}" method="POST">
+            <div class="mb-2">
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Seçili kayıtlar silinecek. Onaylıyor musunuz?')">
+                    <i class="fa-solid fa-trash-can"></i> Seçilenleri Sil
+                </button>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll"></th>
+                            <th>Başlık</th>
+                            <th>Dil</th>
+                            <th>Kategori</th>
+                            <th>Hatalar</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rec in records %}
+                        <tr class="{{ 'faulty-row' if rec.get('_errors') else '' }}">
+                            <td><input type="checkbox" name="record_ids" value="{{ rec.firestore_id }}"></td>
+                            <td>{{ rec.get('title', 'Başlıksız') }}</td>
+                            <td>{{ rec.get('language', '') }}</td>
+                            <td>{{ rec.get('category', '') }}</td>
+                            <td>
+                                {% if rec.get('_errors') %}
+                                    {% for err in rec['_errors'] %}
+                                        <span class="badge bg-danger">{{ err }}</span>
+                                    {% endfor %}
                                 {% endif %}
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <!-- Düzenle -->
+                                    <a href="{{ url_for('admin_edit', firestore_id=rec.firestore_id) }}" class="btn btn-warning" title="Düzenle"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <!-- Sil -->
+                                    <form action="{{ url_for('admin_delete', firestore_id=rec.firestore_id) }}" method="POST" onsubmit="return confirm('Silinsin mi?')">
+                                        <button class="btn btn-danger" title="Yerel Sil"><i class="fa-solid fa-trash"></i></button>
+                                    </form>
+                                    <!-- Embedding oluştur -->
+                                    {% if not rec.get('ai_metadata', {}).get('embedding') %}
+                                    <form action="{{ url_for('regenerate_embedding', firestore_id=rec.firestore_id) }}" method="POST">
+                                        <button class="btn btn-info" title="Embedding Oluştur"><i class="fa-solid fa-brain"></i></button>
+                                    </form>
+                                    {% endif %}
+                                    <!-- AI Analizi -->
+                                    <form action="{{ url_for('analyze_record', firestore_id=rec.firestore_id) }}" method="POST">
+                                        <button class="btn btn-info" title="Dil Bilgisi Analizi"><i class="fa-solid fa-microscope"></i></button>
+                                    </form>
+                                    <!-- Firebase'den Sil -->
+                                    <form action="{{ url_for('firebase_delete', firestore_id=rec.firestore_id) }}" method="POST" onsubmit="return confirm('Firebase\'den silinecek, emin misiniz?')">
+                                        <button class="btn btn-secondary" title="Firebase'den Sil"><i class="fa-solid fa-cloud-xmark"></i></button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </form>
+
+        <!-- Sayfalama -->
+        {% if total_pages > 1 %}
+        <div class="pagination">
+            {% for p in range(1, total_pages + 1) %}
+            <a href="{{ url_for('admin_dashboard', page=p, query=query, language=selected_language, category=selected_category) }}" 
+               class="page-link {% if p == page %}active{% endif %}">{{ p }}</a>
+            {% endfor %}
         </div>
+        {% endif %}
     </div>
+
+    <!-- Tema butonu -->
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fa-solid fa-moon"></i>
+    </button>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const icon = document.querySelector('.theme-toggle i');
+            if (document.body.classList.contains('dark-theme')) {
+                icon.className = 'fa-solid fa-moon';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.className = 'fa-solid fa-sun';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.remove('dark-theme');
+            document.querySelector('.theme-toggle i').className = 'fa-solid fa-sun';
+        }
+        document.getElementById('selectAll').addEventListener('change', function(e) {
+            document.querySelectorAll('input[name="record_ids"]').forEach(cb => cb.checked = e.target.checked);
+        });
+        function importJSON(input) {
+            const formData = new FormData();
+            formData.append('json_file', input.files[0]);
+            fetch("{{ url_for('import_json') }}", { method: 'POST', body: formData })
+                .then(r => r.redirect ? window.location.reload() : alert('Hata oluştu'));
+        }
+    </script>
 </body>
 </html>

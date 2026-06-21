@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yeni Kayıt</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title"><i class="fa-solid fa-plus"></i> Yeni Kayıt Ekle</h4>
+                        <form method="POST">
+                            <div class="mb-3">
+                                <label class="form-label">Başlık *</label>
+                                <input type="text" name="title" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Dil</label>
+                                <select name="language" class="form-control">
+                                    <option value="TR">TR</option>
+                                    <option value="KZ">KZ</option>
+                                    <option value="UZ">UZ</option>
+                                    <option value="TM">TM</option>
+                                    <option value="AZ">AZ</option>
+                                    <option value="KY">KY</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Kategori</label>
+                                <input type="text" name="category" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Tanım</label>
+                                <textarea name="definition" class="form-control" rows="4"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Etimoloji</label>
+                                <input type="text" name="etymology" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Etiketler (virgülle ayırın)</label>
+                                <input type="text" name="tags" class="form-control" placeholder="ör: ünlü düşmesi, ses olayı">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Zorluk Seviyesi</label>
+                                <select name="difficulty" class="form-control">
+                                    <option value="A1">A1</option>
+                                    <option value="A2">A2</option>
+                                    <option value="B1">B1</option>
+                                    <option value="B2">B2</option>
+                                    <option value="C1">C1</option>
+                                </select>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-save"></i> Kaydet</button>
+                                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-light">İptal</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

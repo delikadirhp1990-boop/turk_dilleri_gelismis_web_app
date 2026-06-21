@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanım Kılavuzu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .guide-section {
+            margin-bottom: 32px;
+        }
+        .guide-section h5 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+        }
+        .guide-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .guide-section ul li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-dark);
+        }
+        .guide-section ul li:last-child {
+            border-bottom: none;
+        }
+        .guide-section ul li i {
+            width: 24px;
+            color: var(--accent);
+        }
+        .badge-info {
+            background-color: var(--info);
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: 8px;
+        }
+        .note {
+            background-color: rgba(255,193,7,0.1);
+            border-left: 4px solid var(--warning);
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            margin: 16px 0;
+        }
+        .btn-example {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .btn-example.info {
+            background: var(--info);
+            color: #fff;
+        }
+        .btn-example.warning {
+            background: var(--warning);
+            color: #212529;
+        }
+        .btn-example.danger {
+            background: var(--danger);
+            color: #fff;
+        }
+        .btn-example.secondary {
+            background: #6c757d;
+            color: #fff;
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <nav class="navbar">
+        <div class="container">
+            <span class="navbar-brand"><i class="fa-solid fa-book"></i> Kullanım Kılavuzu</span>
+            <div class="navbar-actions">
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-light btn-sm">
+                    <i class="fa-solid fa-arrow-left"></i> Panele Dön
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title"><i class="fa-solid fa-circle-info"></i> Admin Paneli Kullanım Rehberi</h4>
+                <p>Bu rehber, Türk Dilleri Veri Yönetim Sistemi'nin web tabanlı yönetici panelini en verimli şekilde kullanmanız için hazırlanmıştır. Masaüstü uygulamasındaki tüm yönetim özelliklerini bu panelden de gerçekleştirebilirsiniz.</p>
+            </div>
+        </div>
+
+        <!-- 1. Giriş -->
+        <div class="guide-section mt-4">
+            <h5><i class="fa-solid fa-right-to-bracket"></i> 1. Giriş ve Oturum</h5>
+            <ul>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Giriş:</strong> <code>/admin/login</code> adresine gidin. Varsayılan kullanıcı adı <code>admin</code>, şifre <code>.env</code> dosyasında belirlediğiniz değerdir.</li>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Şifre Değiştirme:</strong> Sağ üstteki <span class="badge-info">Şifre</span> butonuna tıklayarak mevcut şifrenizi değiştirebilirsiniz. Yeni şifre hem oturumda hem de <code>.env</code> dosyasında güncellenir.</li>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Oturum Süresi:</strong> 2 saat boyunca işlem yapmazsanız otomatik olarak çıkış yapılır. Güvenlik için panodan ayrılırken <span class="badge-info">Çıkış</span> butonunu kullanın.</li>
+            </ul>
+        </div>
+
+        <!-- 2. Filtreleme -->
+        <div class="guide-section">
+            <h5><i class="fa-solid fa-filter"></i> 2. Kayıtları Filtreleme ve Arama</h5>
+            <ul>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Arama Çubuğu:</strong> Başlık veya tanım içinde geçen kelimeleri yazıp <kbd>Enter</kbd> tuşuna basın. Sonuçlar anında filtrelenir.</li>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Dil / Kategori Seçimi:</strong> Açılır listelerden dil veya kategori seçerek kayıtları daraltabilirsiniz. "Tüm Diller" / "Tüm Kategoriler" seçeneği filtreyi kaldırır.</li>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Filtrele Butonu:</strong> Seçimleri onaylamak için mavi <span class="badge-info">Filtrele</span> butonuna tıklayın.</li>
+            </ul>
+        </div>
+
+        <!-- 3. Kayıt İşlemleri -->
+        <div class="guide-section">
+            <h5><i class="fa-solid fa-pen-to-square"></i> 3. Kayıt Ekleme ve Düzenleme</h5>
+            <ul>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Yeni Kayıt:</strong> Navbar'daki <span class="badge-info">Yeni Kayıt</span> butonuna tıklayın. Açılan formda başlık (zorunlu), dil, kategori, tanım, etimoloji, etiketler ve zorluk seviyesi alanlarını doldurun.</li>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Kayıt Düzenleme:</strong> Listede her kaydın yanındaki sarı <span class="btn-example warning"><i class="fa-solid fa-pen-to-square"></i></span> butonuna tıklayın. Mevcut değerler formda yüklü olarak gelir, değişiklikleri kaydedin.</li>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Dikkat:</strong> Başlık alanı boş bırakılamaz. HTML etiketleri otomatik olarak temizlenir (güvenlik).</li>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>AI Analizi:</strong> Kaydın yanındaki <span class="btn-example info"><i class="fa-solid fa-microscope"></i></span> butonu ile dil bilgisi analizi yapabilirsiniz (ünlü düşmesi, ünsüz yumuşaması vb.).</li>
+            </ul>
+        </div>
+
+        <!-- 4. Silme -->
+        <div class="guide-section">
+            <h5><i class="fa-solid fa-trash-can"></i> 4. Kayıt Silme</h5>
+            <ul>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Tekli Silme (Yerel):</strong> Kaydın yanındaki kırmızı <span class="btn-example danger"><i class="fa-solid fa-trash"></i></span> butonuna tıklayın, onay penceresinde "Tamam" deyin.</li>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Toplu Silme:</strong> Silmek istediğiniz kayıtların başındaki onay kutusunu işaretleyin, "Seçilenleri Sil" butonuna tıklayın. Tüm seçili kayıtlar tek seferde silinir.</li>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Hepsini Seç:</strong> Tablo başlığındaki onay kutusu tüm satırları seçer / kaldırır.</li>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Firebase'den Sil:</strong> Kaydın yanındaki gri <span class="btn-example secondary"><i class="fa-solid fa-cloud-xmark"></i></span> butonu, yalnızca Firestore bulutunu hedef alır. Masaüstü uygulamasındaki "🗑️ Firebase'den Sil" ile aynı işleve sahiptir.</li>
+            </ul>
+        </div>
+
+        <!-- 5. Embedding -->
+        <div class="guide-section">
+            <h5><i class="fa-solid fa-brain"></i> 5. Embedding Yönetimi</h5>
+            <ul>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Eksik Embedding:</strong> "Embedding eksik" hatası olan kayıtlarda mavi <span class="btn-example info"><i class="fa-solid fa-brain"></i></span> butonu belirir. Tıklayarak kaydın başlık ve tanımından embedding vektörünü yeniden oluşturabilirsiniz.</li>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Toplu Embedding:</strong> Tablonun üstündeki <span class="badge-info">Toplu Embedding</span> butonu, embedding'i eksik tüm kayıtları tek seferde işler. Masaüstü uygulamasındaki "Embedding Hesapla (tümü)" ile aynıdır.</li>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Ne işe yarar?</strong> Embedding, soru-cevap sisteminin doğru cevabı bulabilmesi için zorunludur.</li>
+            </ul>
+        </div>
+
+        <!-- 6. JSON -->
+        <div class="guide-section">
+            <h5><i class="fa-solid fa-file-export"></i> 6. JSON İçe / Dışa Aktarma</h5>
+            <ul>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Dışa Aktar (Export):</strong> Tablonun üstündeki <span class="badge-info">Dışa Aktar</span> butonuna tıklayın. Tarayıcınız tüm verileri içeren bir <code>.json</code> dosyası indirecektir.</li>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>İçe Aktar (Import):</strong> <span class="badge-info">İçe Aktar</span> butonuna tıklayın, bilgisayarınızdan bir <code>.json</code> dosyası seçin. Dosya otomatik olarak yüklenir ve Firestore'a eklenir. Desteklenen format: <code>{"data": [...]}</code> veya doğrudan <code>[...]</code></li>
+            </ul>
+        </div>
+
+        <!-- 7. İstatistikler -->
+        <div class="guide-section">
+            <h5><i class="fa-solid fa-chart-pie"></i> 7. İstatistikler</h5>
+            <ul>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Grafikler:</strong> Navbar'daki <span class="badge-info">İstatistikler</span> butonu pasta grafiği (kategori dağılımı) ve çubuk grafiği (dil dağılımı) sunar.</li>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Canlı Veri:</strong> Grafikler, o anki Firestore verilerinizle oluşturulur. Sayfayı yenileyerek güncelleyebilirsiniz.</li>
+            </ul>
+        </div>
+
+        <!-- 8. Log -->
+        <div class="guide-section">
+            <h5><i class="fa-solid fa-list-check"></i> 8. Log Görüntüleme</h5>
+            <ul>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Yerel Log:</strong> <span class="badge-info">Yerel Log</span> butonu, Flask uygulamasının kaydettiği son 200 satırlık yerel log kaydını gösterir.</li>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Firebase Log (FB Log):</strong> <span class="badge-info">FB Log</span> butonu, Firestore'da <code>system_logs</code> koleksiyonuna kaydedilen tüm CRUD işlemlerini listeler. Hangi kaydın ne zaman eklendiğini, güncellendiğini veya silindiğini buradan görebilirsiniz. Hata gördüğünüzde "Kayda Git" butonuyla doğrudan ilgili kayda gidebilirsiniz.</li>
+            </ul>
+        </div>
+
+        <!-- 9. Firebase Sync -->
+        <div class="guide-section">
+            <h5><i class="fa-solid fa-cloud"></i> 9. Firebase Senkronizasyonu</h5>
+            <ul>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Push:</strong> Tablonun üstündeki <span class="badge-info">Push</span> butonu, tüm kayıtların <code>sync.status</code> alanını "synced" olarak günceller ve son senkronizasyon tarihini işler. Masaüstü uygulamasındaki "☁️ Gönder" ile aynıdır.</li>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Pull:</strong> <span class="badge-info">Pull</span> butonu, Firestore'dan en güncel verileri çeker (panel zaten canlı veriyi gösterdiği için bu buton bilgilendirme amaçlıdır).</li>
+            </ul>
+        </div>
+
+        <!-- 10. Tema -->
+        <div class="guide-section">
+            <h5><i class="fa-solid fa-palette"></i> 10. Tema Değiştirme</h5>
+            <ul>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Koyu / Açık Tema:</strong> Sağ alttaki yuvarlak butona tıklayarak koyu ve açık tema arasında geçiş yapabilirsiniz. Tercihiniz tarayıcıda saklanır, bir sonraki ziyaretinizde hatırlanır.</li>
+            </ul>
+        </div>
+
+        <!-- 11. Hatalı Kayıtlar -->
+        <div class="guide-section">
+            <h5><i class="fa-solid fa-triangle-exclamation"></i> 10. Hatalı Kayıtlar</h5>
+            <ul>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>İşaretleme:</strong> Başlığı, tanımı veya embedding'i eksik olan kayıtlar kırmızı kenarlıkla ve uyarı rozetleriyle gösterilir.</li>
+                <li><i class="fa-solid fa-angle-right"></i> <strong>Düzeltme:</strong> Hatalı kaydın yanındaki düzenle butonuyla gerekli alanları tamamlayın veya embedding oluştur butonunu kullanın.</li>
+            </ul>
+        </div>
+
+        <!-- 12. Veritabanı Hatalarını Giderme -->
+        <div class="guide-section">
+            <h5><i class="fa-solid fa-screwdriver-wrench"></i> 11. Veritabanı Hatalarını Giderme</h5>
+            <p>Aşağıdaki tablo, karşılaşabileceğiniz yaygın veritabanı sorunlarını ve çözümlerini göstermektedir.</p>
+            
+            <div class="table-responsive mt-3">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Sorun</th>
+                            <th>Çözüm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge bg-danger">Başlık boş</span> / <span class="badge bg-danger">Tanım boş</span></td>
+                            <td>Kaydın yanındaki <span class="btn-example warning"><i class="fa-solid fa-pen-to-square"></i></span> butonuyla düzenleyin, eksik alanı doldurun.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-danger">Embedding eksik</span></td>
+                            <td>Mavi <span class="btn-example info"><i class="fa-solid fa-brain"></i></span> butonuna tıklayarak embedding'i yeniden oluşturun. Toplu işlem için <span class="badge-info">Toplu Embedding</span> butonunu kullanın.</td>
+                        </tr>
+                        <tr>
+                            <td>Yanlışlıkla silinen kayıt</td>
+                            <td>JSON dışa aktarımından yedek aldıysanız, <span class="badge-info">İçe Aktar</span> butonuyla geri yükleyin. Düzenli yedek almanız önerilir.</td>
+                        </tr>
+                        <tr>
+                            <td>Yanlış veri girilmiş</td>
+                            <td>Kaydı düzenleyip doğru bilgileri girin.</td>
+                        </tr>
+                        <tr>
+                            <td>Firebase bağlantı hatası</td>
+                            <td><code>.env</code> dosyasındaki <code>FIREBASE_KEY_PATH</code> yolunun doğru olduğunu ve anahtar dosyasının geçerli olduğunu kontrol edin.</td>
+                        </tr>
+                        <tr>
+                            <td>Senkronizasyon tutarsızlığı</td>
+                            <td><span class="badge-info">Push</span> butonu ile tüm kayıtları senkronize duruma getirin. Masaüstü uygulamasında <strong>☁️ Çek</strong> butonuna basarak Firestore'daki en güncel verileri çekin.</td>
+                        </tr>
+                        <tr>
+                            <td>Sayfa yüklenmiyor / Boş liste</td>
+                            <td><span class="badge-info">Yerel Log</span> sayfasına giderek hata mesajını kontrol edin.</td>
+                        </tr>
+                        <tr>
+                            <td>Çok sayıda hatalı kayıt</td>
+                            <td>Toplu silme özelliği ile seçili kayıtları temizleyin veya JSON dışa aktarımı yapıp veritabanını sıfırladıktan sonra tekrar içe aktarın.</td>
+                        </tr>
+                        <tr>
+                            <td>Firebase'deki yanlış kayıt</td>
+                            <td>Kaydın yanındaki gri <span class="btn-example secondary"><i class="fa-solid fa-cloud-xmark"></i></span> butonu ile doğrudan Firestore'dan silin.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="note mt-3">
+                <strong><i class="fa-solid fa-lightbulb"></i> İpucu:</strong> 
+                <span class="badge-info">FB Log</span> sayfasında her işlemin kaydı tutulur. Bir hata gördüğünüzde log satırındaki <strong>"Kayda Git"</strong> butonuyla doğrudan ilgili kayda gidip düzeltebilirsiniz.
+            </div>
+        </div>
+
+        <p class="text-muted text-center mt-4">© 2026 Türk Dilleri Sistemi. Tüm hakları saklıdır.</p>
+    </div>
+</body>
+</html>
