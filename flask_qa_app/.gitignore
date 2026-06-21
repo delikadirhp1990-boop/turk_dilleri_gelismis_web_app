@@ -1,0 +1,33 @@
+# Firebase özel anahtarları
+firebase_key.json
+firebase-key.json
+*firebase*.json
+*.serviceAccountKey.json
+
+# Google servis dosyaları (Android için)
+google-services.json
+
+# Ortam değişkenleri dosyası
+.env
+
+# Python sanal ortam
+venv/
+env/
+.venv/
+__pycache__/
+
+# IDE ayarları
+.idea/
+.vscode/
+
+# Log dosyaları
+*.log
+app.log
+
+# Veritabanı dosyaları
+data/turkic_data.json
+data/turkce_verileri.json
+
+# İşletim sistemi
+.DS_Store
+Thumbs.db
