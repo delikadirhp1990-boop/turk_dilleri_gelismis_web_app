@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Paneli</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="dark-theme">
+    <nav class="navbar">
+        <div class="container">
+            <span class="navbar-brand">
+                <i class="fa-solid fa-screwdriver-wrench"></i> Admin Paneli
+            </span>
+            <div class="navbar-actions">
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-light btn-sm">
+                    <i class="fa-solid fa-arrows-rotate"></i> Yenile
+                </a>
+                <a href="{{ url_for('admin_logout') }}" class="btn btn-outline-light btn-sm">
+                    <i class="fa-solid fa-right-from-bracket"></i> Çıkış
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h3><i class="fa-solid fa-database"></i> Toplam Kayıt: {{ total }}</h3>
+        <h5 class="text-warning"><i class="fa-solid fa-triangle-exclamation"></i> Hatalı Kayıtlar: {{ faulty|length }}</h5>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="table-responsive mt-4">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Başlık</th>
+                        <th>Kategori</th>
+                        <th>Dil</th>
+                        <th>Hatalar</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rec in records %}
+                    <tr class="{{ 'faulty-row' if rec.get('_errors') else '' }}">
+                        <td data-label="Başlık">{{ rec.get('title', 'Başlıksız') }}</td>
+                        <td data-label="Kategori">{{ rec.get('category', '') }}</td>
+                        <td data-label="Dil">{{ rec.get('language', '') }}</td>
+                        <td data-label="Hatalar">
+                            {% if rec.get('_errors') %}
+                                <ul class="list-unstyled text-danger small">
+                                {% for err in rec['_errors'] %}
+                                    <li><i class="fa-solid fa-circle-exclamation"></i> {{ err }}</li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </td>
+                        <td data-label="İşlemler">
+                            <div class="d-flex gap-2">
+                                <a href="{{ url_for('admin_edit', firestore_id=rec.firestore_id) }}" class="btn btn-warning btn-sm">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                                <form action="{{ url_for('admin_delete', firestore_id=rec.firestore_id) }}" method="POST" onsubmit="return confirm('Kayıt silinecek, emin misiniz?')">
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                                {% if not rec.get('ai_metadata', {}).get('embedding') %}
+                                <form action="{{ url_for('regenerate_embedding', firestore_id=rec.firestore_id) }}" method="POST">
+                                    <button type="submit" class="btn btn-info btn-sm">
+                                        <i class="fa-solid fa-brain"></i>
+                                    </button>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

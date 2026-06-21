@@ -1,0 +1,469 @@
+/* ======================= DEĞİŞKENLER ======================= */
+:root {
+    --primary: #0e639c;
+    --primary-hover: #1177bb;
+    --primary-dark: #094771;
+    --accent: #00bcd4;
+    --bg-light: #f8f9fa;
+    --bg-dark: #1e1e1e;
+    --surface-light: #ffffff;
+    --surface-dark: #2d2d2d;
+    --text-light: #212529;
+    --text-dark: #e0e0e0;
+    --text-muted-light: #6c757d;
+    --text-muted-dark: #a0a0a0;
+    --border-light: #dee2e6;
+    --border-dark: #444444;
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --success: #28a745;
+    --info: #17a2b8;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+    --transition: all 0.3s ease;
+    --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-mono: 'Cascadia Code', 'Fira Code', monospace;
+}
+
+/* ======================= SIFIRLAMA ======================= */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-light);
+    color: var(--text-light);
+    line-height: 1.7;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition);
+}
+
+body.dark-theme {
+    background-color: var(--bg-dark);
+    color: var(--text-dark);
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary);
+    transition: var(--transition);
+}
+
+a:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}
+
+/* ======================= SCROLLBAR ======================= */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #a0a0a0;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #808080;
+}
+
+/* ======================= NAVBAR ======================= */
+.navbar {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    padding: 12px 0;
+    box-shadow: var(--shadow-lg);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-brand {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: white !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.navbar-brand i {
+    font-size: 1.8rem;
+}
+
+.navbar-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* ======================= CONTAINER ======================= */
+.container {
+    width: 100%;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 20px;
+    flex: 1;
+}
+
+/* ======================= CARD ======================= */
+.card {
+    background-color: var(--surface-light);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    overflow: hidden;
+}
+
+body.dark-theme .card {
+    background-color: var(--surface-dark);
+    border-color: var(--border-dark);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.card-body {
+    padding: 32px;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: var(--primary);
+}
+
+/* ======================= FORM ELEMANLARI ======================= */
+.form-label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-light);
+}
+
+body.dark-theme .form-label {
+    color: var(--text-dark);
+}
+
+.form-control {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 1rem;
+    border: 2px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    background-color: var(--surface-light);
+    color: var(--text-light);
+    transition: var(--transition);
+    outline: none;
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(14, 99, 156, 0.2);
+}
+
+body.dark-theme .form-control {
+    background-color: #3c3c3c;
+    border-color: var(--border-dark);
+    color: var(--text-dark);
+}
+
+body.dark-theme .form-control:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.3);
+}
+
+.form-control::placeholder {
+    color: #a0a0a0;
+    font-style: italic;
+}
+
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* ======================= BUTONLAR ======================= */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.btn:hover {
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    color: white;
+    box-shadow: 0 4px 12px rgba(14, 99, 156, 0.4);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(14, 99, 156, 0.5);
+}
+
+.btn-outline-light {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+.btn-outline-light:hover {
+    background: white;
+    color: var(--primary-dark);
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c82333;
+    transform: translateY(-1px);
+}
+
+.btn-warning {
+    background: var(--warning);
+    color: #212529;
+}
+
+.btn-info {
+    background: var(--info);
+    color: white;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+}
+
+.btn-lg {
+    padding: 16px 32px;
+    font-size: 1.2rem;
+}
+
+.btn-block {
+    width: 100%;
+    display: flex;
+}
+
+/* ======================= ALERT ======================= */
+.alert {
+    padding: 16px 20px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 20px;
+    font-weight: 500;
+    border-left: 5px solid;
+    animation: slideIn 0.4s ease;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #28a745;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #dc3545;
+    color: #721c24;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-color: #ffc107;
+    color: #856404;
+}
+
+body.dark-theme .alert-success {
+    background-color: #1e3a2a;
+    color: #a3d9b1;
+}
+
+body.dark-theme .alert-danger {
+    background-color: #3a1e1e;
+    color: #f5c6cb;
+}
+
+body.dark-theme .alert-warning {
+    background-color: #3a3520;
+    color: #ffeeba;
+}
+
+/* ======================= TABLE ======================= */
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.table thead th {
+    background-color: var(--primary);
+    color: white;
+    padding: 14px 16px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.table tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: middle;
+}
+
+body.dark-theme .table tbody td {
+    border-bottom: 1px solid var(--border-dark);
+}
+
+.table tbody tr {
+    transition: var(--transition);
+}
+
+.table tbody tr:hover {
+    background-color: rgba(14, 99, 156, 0.05);
+}
+
+body.dark-theme .table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* Hatalı satır */
+.faulty-row {
+    background-color: rgba(220, 53, 69, 0.08) !important;
+    border-left: 4px solid var(--danger);
+}
+
+body.dark-theme .faulty-row {
+    background-color: rgba(220, 53, 69, 0.15) !important;
+}
+
+/* ======================= UTILITY ======================= */
+.text-center { text-align: center; }
+.text-muted { color: var(--text-muted-light); }
+body.dark-theme .text-muted { color: var(--text-muted-dark); }
+.mt-1 { margin-top: 8px; }
+.mt-2 { margin-top: 16px; }
+.mt-3 { margin-top: 24px; }
+.mt-4 { margin-top: 32px; }
+.mt-5 { margin-top: 48px; }
+.mb-1 { margin-bottom: 8px; }
+.mb-2 { margin-bottom: 16px; }
+.mb-3 { margin-bottom: 24px; }
+.mb-4 { margin-bottom: 32px; }
+.mb-5 { margin-bottom: 48px; }
+.w-100 { width: 100%; }
+.d-grid { display: grid; }
+.gap-2 { gap: 8px; }
+
+/* ======================= ANİMASYONLAR ======================= */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.card {
+    animation: fadeIn 0.5s ease;
+}
+
+/* ======================= RESPONSİVE ======================= */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 12px;
+    }
+    .card-body {
+        padding: 20px;
+    }
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+    .btn {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+    .table thead {
+        display: none;
+    }
+    .table tbody td {
+        display: block;
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+    }
+    .table tbody td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+}
+
+/* ======================= DARK MODE TOGGLE (opsiyonel) ======================= */
+.theme-toggle {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+    border-radius: 50px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.theme-toggle:hover {
+    background: white;
+    color: var(--primary-dark);
+}

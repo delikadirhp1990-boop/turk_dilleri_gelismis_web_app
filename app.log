@@ -1,0 +1,19 @@
+2026-06-20 21:29:42,629 - core.json_manager - INFO - Local JSON yüklendi: 0 kayıt
+2026-06-20 21:30:30,593 - core.json_manager - INFO - Local JSON yüklendi: 0 kayıt
+2026-06-20 21:32:53,985 - core.json_manager - INFO - Local JSON yüklendi: 1 kayıt
+2026-06-20 21:40:41,287 - core.json_manager - INFO - Local JSON yüklendi: 0 kayıt
+2026-06-20 21:45:17,571 - core.json_manager - INFO - Local JSON yüklendi: 1 kayıt
+2026-06-20 21:50:53,430 - core.json_manager - INFO - Local JSON yüklendi: 1 kayıt
+2026-06-20 21:50:53,430 - __main__ - WARNING - firebase_config.json bulunamadı. Firebase devre dışı.
+2026-06-20 21:55:50,850 - core.json_manager - INFO - Local JSON yüklendi: 2 kayıt
+2026-06-20 21:55:50,850 - __main__ - WARNING - Firebase anahtar dosyası bulunamadı.
+2026-06-20 21:58:10,467 - core.json_manager - INFO - Local JSON yüklendi: 3 kayıt
+2026-06-20 21:58:10,467 - __main__ - WARNING - Firebase anahtar dosyası bulunamadı.
+2026-06-20 22:01:50,229 - core.json_manager - INFO - Local JSON yüklendi: 3 kayıt
+2026-06-20 22:01:50,244 - __main__ - ERROR - Firebase hatası: Invalid service account certificate. Certificate must contain a "type" field set to "service_account".
+2026-06-20 22:03:51,228 - core.json_manager - INFO - Local JSON yüklendi: 3 kayıt
+2026-06-20 22:03:51,260 - __main__ - INFO - Firebase bağlantısı kuruldu.
+2026-06-20 22:04:29,790 - core.json_manager - INFO - Local JSON yüklendi: 3 kayıt
+2026-06-20 22:04:29,828 - __main__ - INFO - Firebase bağlantısı kuruldu.
+2026-06-20 22:06:09,131 - core.json_manager - INFO - Local JSON yüklendi: 0 kayıt
+2026-06-20 22:06:09,163 - __main__ - INFO - Firebase bağlantısı kuruldu.
